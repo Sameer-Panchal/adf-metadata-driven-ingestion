@@ -22,6 +22,10 @@
 		"ls_gen2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://dlstgdev.dfs.core.windows.net/"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/d32aed50-2f98-4afc-9b74-67b8d8fb5752/resourceGroups/rg_dl_test_india/providers/Microsoft.Storage/storageAccounts/stdemosource"
 		}
 	},
 	"variables": {
@@ -257,340 +261,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_customer_json')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_blob_orders",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "landing"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "customers.json",
-						"container": "landing"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_blob_orders')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_customer_landing_raw')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_gen2",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "raw"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "store_test",
-						"fileSystem": "raw"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_customer_landing_to_raw')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_gen2",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "raw"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "customer.json",
-						"fileSystem": "raw"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_customers_test')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_gen2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "orders.txt",
-						"folderPath": "test",
-						"fileSystem": "raw"
-					},
-					"columnDelimiter": ",",
-					"compressionCodec": null,
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_final_orders')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_gen2",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "raw"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "orders.txt",
-						"fileSystem": "raw"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_landing_stores_test')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_blob_orders",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "landing"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "Stores_test",
-						"container": "landing"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_blob_orders')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_orders_raw')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_blob_orders",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "landing"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "order_items.txt",
-						"container": "landing"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_blob_orders')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_raw_stores_test')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_gen2",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "raw"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "store_test",
-						"fileSystem": "raw"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_remaing_json_raw')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_gen2",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "raw"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "raw"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_remaining_json_to_raw')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_blob_orders",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "raw"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"container": "landing"
-					}
-				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"STORE_ID": {
-							"type": "string"
-						},
-						"STORE_NAME": {
-							"type": "string"
-						},
-						"WEB_ADDRESS": {
-							"type": "string"
-						},
-						"LATITUDE": {
-							"type": "string"
-						},
-						"LONGITUDE": {
-							"type": "string"
-						},
-						"CUSTOMER_ID": {
-							"type": "string"
-						},
-						"FULL_NAME": {
-							"type": "string"
-						},
-						"EMAIL_ADDRESS": {
-							"type": "string"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_blob_orders')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_stores_final')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_gen2",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "landing"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "final_raw",
-						"fileSystem": "raw"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/PL_Metadata_Driven_Landing')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -779,13 +449,43 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2026-01-14T15:50:24Z"
+				"lastPublishTime": "2026-01-14T18:14:22Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Lookup_Metadata')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Blob_Excel')]",
 				"[concat(variables('factoryId'), '/datasets/DS_ADLS_Landing')]",
 				"[concat(variables('factoryId'), '/linkedServices/Blob_demo')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "PL_Metadata_Driven_Landing",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/rawfiles/blobs/Raw_files",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_Metadata_Driven_Landing')]"
 			]
 		}
 	]
