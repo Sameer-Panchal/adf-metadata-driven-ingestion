@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "dls-testppl-ci-01"
+		},
+		"Blob_demo_connectionString": {
+			"value": ""
+		},
+		"ls_blob_orders_connectionString": {
+			"value": ""
+		},
+		"ls_gen2_accountKey": {
+			"value": ""
+		},
+		"ls_gen2_properties_typeProperties_url": {
+			"value": "https://dlstgdev.dfs.core.windows.net/"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"value": "/subscriptions/d32aed50-2f98-4afc-9b74-67b8d8fb5752/resourceGroups/rg_dl_test_india/providers/Microsoft.Storage/storageAccounts/stdemosource"
+		}
+	}
+}
