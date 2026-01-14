@@ -81,6 +81,6 @@ Azure Data Engineering | Analytics Architecture
 
 --
 
-## Architecture
+## Architecture Diagram
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/7115d78a-d49f-4a0c-a4bd-156c48704073" />
 
