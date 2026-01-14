@@ -1,0 +1,27 @@
+{
+	"name": "ds_orders_raw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob_orders",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "landing"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "order_items.txt",
+				"container": "landing"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

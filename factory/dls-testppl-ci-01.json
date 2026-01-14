@@ -1,0 +1,9 @@
+{
+	"name": "dls-testppl-ci-01",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c3080fb7-d9c4-4b83-91e9-78cd01ff33af",
+		"tenantId": "7eb10ae9-8abf-4032-8841-f27e6ee35b6f"
+	}
+}

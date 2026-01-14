@@ -1,0 +1,187 @@
+{
+	"name": "PL_Metadata_Driven_Landing",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup_Metadata",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ExcelSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"dataset": {
+						"referenceName": "Lookup_Metadata",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach_File",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup_Metadata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup_Metadata').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy_To_Landing",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ExcelSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings",
+										"copyBehavior": "PreserveHierarchy"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_Blob_Excel",
+									"type": "DatasetReference",
+									"parameters": {
+										"pFolderPath": "Raw_files",
+										"pFileName": "@item().FileName",
+										"pSheetName": {
+											"value": "@item().SheetName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_ADLS_Landing",
+									"type": "DatasetReference",
+									"parameters": {
+										"pTargetFolder": {
+											"value": "@item().TargetFolder",
+											"type": "Expression"
+										},
+										"pFileName": {
+											"value": "@concat(item().FileName,variables('vLoadDate'))\n",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Delete1",
+							"type": "Delete",
+							"dependsOn": [
+								{
+									"activity": "Copy_To_Landing",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DS_Blob_Excel",
+									"type": "DatasetReference",
+									"parameters": {
+										"pFolderPath": "Raw_files",
+										"pFileName": {
+											"value": "@item().Filename",
+											"type": "Expression"
+										},
+										"pSheetName": "@item().SheetName"
+									}
+								},
+								"logStorageSettings": {
+									"linkedServiceName": {
+										"referenceName": "Blob_demo",
+										"type": "LinkedServiceReference"
+									},
+									"path": "rawfiles"
+								},
+								"enableLogging": true,
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"vLoadDate": {
+				"type": "String",
+				"defaultValue": "@formatDateTime(utcnow(),'yyyy-MM-dd')"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-01-14T15:50:24Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

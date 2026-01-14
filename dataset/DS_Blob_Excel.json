@@ -1,0 +1,42 @@
+{
+	"name": "DS_Blob_Excel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Blob_demo",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"pFolderPath": {
+				"type": "string"
+			},
+			"pFileName": {
+				"type": "string"
+			},
+			"pSheetName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": {
+				"value": "@dataset().pSheetName",
+				"type": "Expression"
+			},
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().pFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().pFolderPath",
+					"type": "Expression"
+				},
+				"container": "rawfiles"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

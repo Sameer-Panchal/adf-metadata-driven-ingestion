@@ -1,0 +1,24 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_Metadata_Driven_Landing",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/rawfiles/blobs/Raw_files",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/d32aed50-2f98-4afc-9b74-67b8d8fb5752/resourceGroups/rg_dl_test_india/providers/Microsoft.Storage/storageAccounts/stdemosource",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

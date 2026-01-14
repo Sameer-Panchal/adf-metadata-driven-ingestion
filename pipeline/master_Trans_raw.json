@@ -1,0 +1,53 @@
+{
+	"name": "master_Trans_raw",
+	"properties": {
+		"description": "Pipeline to copy master and transaction to raw",
+		"activities": [
+			{
+				"name": "MasterTrans",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "Master_Trans_Files",
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": "@pipeline().parameters.pFileName",
+							"SheetName": "@pipeline().parameters.pSheetName"
+						}
+					},
+					"fieldList": [
+						"exists",
+						"childItems",
+						"structure"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
+			}
+		],
+		"parameters": {
+			"pSheetName": {
+				"type": "string",
+				"defaultValue": "Sheet1"
+			},
+			"pFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-01-11T17:12:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

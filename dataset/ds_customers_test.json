@@ -1,0 +1,26 @@
+{
+	"name": "ds_customers_test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "orders.txt",
+				"folderPath": "test",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"compressionCodec": null,
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
