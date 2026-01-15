@@ -47,6 +47,9 @@ Source (Excel files)
 4. **Delete Activity**
    - Deletes the source file after successful ingestion.
    - Prevents duplicate processing and ensures idempotency.
+     
+5. **Event Trigger**
+   -The Pipeline is triggered once a file is placed in the Blob Storage.
 
 ---
 
