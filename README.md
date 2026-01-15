@@ -49,7 +49,7 @@ Source (Excel files)
    - Prevents duplicate processing and ensures idempotency.
      
 5. **Event Trigger**
-   -The Pipeline is triggered once a file is placed in the Blob Storage.
+   - The Pipeline is triggered once a file is placed in the Blob Storage.
 
 ---
 
