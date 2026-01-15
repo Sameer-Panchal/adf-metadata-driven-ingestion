@@ -23,7 +23,7 @@
 			"type": "string",
 			"defaultValue": "https://dlstgdev.dfs.core.windows.net/"
 		},
-		"trigger1_properties_typeProperties_scope": {
+		"EventTrigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/d32aed50-2f98-4afc-9b74-67b8d8fb5752/resourceGroups/rg_dl_test_india/providers/Microsoft.Storage/storageAccounts/stdemosource"
 		},
@@ -66,8 +66,8 @@
 					"ls_gen2_properties_typeProperties_url": {
 						"value": "[parameters('ls_gen2_properties_typeProperties_url')]"
 					},
-					"trigger1_properties_typeProperties_scope": {
-						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
+					"EventTrigger_properties_typeProperties_scope": {
+						"value": "[parameters('EventTrigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
